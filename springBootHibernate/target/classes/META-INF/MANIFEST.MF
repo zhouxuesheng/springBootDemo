@@ -4,7 +4,8 @@ Implementation-Version: 1-SNAPSHOT
 Built-By: Administrator
 Implementation-Vendor-Id: com.springBoot.demo
 Build-Jdk: 1.8.0_131
-Implementation-URL: http://maven.apache.org
+Implementation-URL: http://projects.spring.io/spring-boot/springBootHi
+ bernate/
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 

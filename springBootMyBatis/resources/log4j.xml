@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/' >
+
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+	    <param name="target" value="System.out"/> <!-- default value is System.out, we can change it to System.err -->
+	    <layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern"
+		  value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+	    </layout>
+	</appender>
+	
+	<appender name="fileappender" class="org.apache.log4j.DailyRollingFileAppender">
+	    <param name="append" value="true" />
+	    <param name="DatePattern" value=".yyyy-MM-dd"/>
+	    <param name="file" value="${log}/ServerCommon.log" />
+	    <layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern"
+			value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+	    </layout>
+	</appender>
+	
+	<appender name="ErrorFileAppender" class="org.apache.log4j.RollingFileAppender">
+	    <param name="append" value="true" />
+	    <param name="Threshold" value="ERROR"/>
+	    <param name="file" value="${log}/ErrorLogger.log" />
+	    <layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern"
+			value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+	    </layout>
+	</appender>
+	
+	<appender name="InfoFileAppender" class="org.apache.log4j.RollingFileAppender">
+	    <param name="append" value="true" />
+	    <param name="Threshold" value="INFO"/>
+	    <param name="file" value="${log}/InfoLogger.log" />
+	    <layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern"
+			value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+	    </layout>
+	</appender>
+
+	<!--  -->
+	<logger name="org.springBootMyBatis" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="ErrorFileAppender" />
+		<appender-ref ref="InfoFileAppender" />
+		<appender-ref ref="console" />
+	</logger>
+	
+	<root>
+		<level value="info" />
+		<appender-ref ref="console" />
+		<appender-ref ref="fileappender" />
+	</root>
+
+	<!--
+	If you deploy the application war file on tomcat then you have to pass a JVM arguments to the tomcat JVM.
+	To do so go to tomcat bin folder and open Tomcat8w.exe.
+	now go to java tab and inside java options textarea add this : -Dlog=D:\Program Files\Tomcat 8.0\logs .
+	now start tomcat and all log files will be automatically generated.
+	
+	If you run this app under spring boot then you have to set jvm argument by yourproject -> run as ->run configurations
+	-> Arguments -> vm arguments -> add -Dlog="D:\Program Files\Tomcat 8.0\logs"  .
+	now run the app and all log files will be automatically generated.
+	-->
+
+</log4j:configuration>

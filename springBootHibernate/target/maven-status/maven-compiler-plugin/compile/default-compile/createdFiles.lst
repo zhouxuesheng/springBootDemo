@@ -1,0 +1,6 @@
+org\springBootHibernate\configuration\JpaConfiguration.class
+org\springBootHibernate\dao\UserDAO.class
+org\springBootHibernate\service\UserService.class
+org\springBootHibernate\controller\UserController.class
+org\springBootHibernate\entity\User.class
+org\springBootHibernate\configuration\Entry.class

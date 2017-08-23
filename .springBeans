@@ -9,6 +9,7 @@
 	<configs>
 	</configs>
 	<autoconfigs>
+		<config>java:com.springBoot.demo.configuration.Entry</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

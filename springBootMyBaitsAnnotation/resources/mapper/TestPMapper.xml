@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.springBootMyBaitsAnnotation.dao.TestPDAO">
+	<resultMap id="BaseResultMap" type="org.springBootMyBaitsAnnotation.entity.TestP">
+		<result column="pname" property="pName" />
+		<result column="psex" property="pSex" />
+	</resultMap>
+
+	<parameterMap id="TestP" type="org.springBootMyBaitsAnnotation.entity.TestP"/>
+
+	<sql id="Base_Column_List">
+		pname, psex
+	</sql>
+
+	<select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from TEST_P
+		where pname = #{pname}
+	</select>
+	
+	
+	<select id="getAll" resultMap="BaseResultMap" >
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM TEST_P
+	</select>
+
+</mapper>

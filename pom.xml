@@ -15,5 +15,6 @@
 		<!-- 集成MyBaits -->
 		<module>springBootMyBatis</module>
     <module>springBootValidation</module>
+    <module>springBootMyBaitsAnnotation</module>
   </modules>
 </project>

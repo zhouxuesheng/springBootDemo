@@ -10,6 +10,7 @@ import org.springBootMyBaitsAnnotation.serivce.TestPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,13 +26,19 @@ public class TestPController {
 	
 	
 	@RequestMapping(value = "/get/{name}", method= RequestMethod.GET)
-	public String findByName(@PathVariable("name") String pname,Model model){
+	@ResponseBody
+	public ResultBody findByName(@PathVariable("name") String pname,Model model) throws GlobalErrorInfoException{
 		
+		if(StringUtils.isEmpty(pname)){
+			throw new GlobalErrorInfoException(ErrorInfoEnum.PARAMS_NO_COMPLETE);
+		}
 		TestP testP = testPService.findByName(pname);
-		
+		if(testP == null){
+			throw new GlobalErrorInfoException(ErrorInfoEnum.RESULT_NOT_NULL);
+		}
 		model.addAttribute("testP", testP);
 		
-		return "testP";
+		return new ResultBody(testP);
 	}
 	
 	@RequestMapping(value = "/list" , method = RequestMethod.GET)
@@ -56,13 +63,13 @@ public class TestPController {
 	
 	@RequestMapping( value = "/add" , method = RequestMethod.GET)
 	@ResponseBody
-	public String addTestP(@RequestParam("pname") String pname, @RequestParam("psex") String psex){
+	public ResultBody addTestP(@RequestParam("pname") String pname, @RequestParam("psex") String psex){
 		TestP testP = new TestP();
 		testP.setpName(pname);
 		testP.setpSex(psex);
 		
 		testPService.insertTestP(testP);
 		
-		return "true";
+		return new ResultBody("OK");
 	} 
 }

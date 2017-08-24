@@ -9,8 +9,8 @@ import org.springBootMyBaitsAnnotation.error.ErrorInfoInterface;
  */
 public enum ErrorInfoEnum implements ErrorInfoInterface {
 
-	PARAMS_NO_COMPLETE("000001","params no complete");
-	
+	PARAMS_NO_COMPLETE("000001","params no complete"),
+	RESULT_NOT_NULL("000002","result  not null");
 	
 	private String code;
 	private String message;

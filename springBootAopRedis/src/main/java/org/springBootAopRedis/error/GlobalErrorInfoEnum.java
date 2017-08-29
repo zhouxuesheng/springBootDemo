@@ -7,8 +7,14 @@ package org.springBootAopRedis.error;
  */
 public enum GlobalErrorInfoEnum implements ErrorInfoInterface{
 
+	/** 成功 */
     SUCCESS("0", "success"),
-    NOT_FOUND("-1", "service not found");
+    /** 服务不存在 */
+    NOT_FOUND("-1", "service not found"),
+    /** 权限验证失败 */
+	NOT_PERMIS("20000","Permission validation failed"),
+	/** 登录超时 */
+	TIME_OUT("20001","Login timeout");
 
     private String code;
 

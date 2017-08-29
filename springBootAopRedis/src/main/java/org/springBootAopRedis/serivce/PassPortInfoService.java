@@ -2,13 +2,13 @@ package org.springBootAopRedis.serivce;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springBootAopRedis.dao.PassPortInfoDAO;
 import org.springBootAopRedis.entity.PassPortInfo;
+import org.springBootAopRedis.util.DesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -36,16 +36,23 @@ public class PassPortInfoService {
 			return null;
 		}else{
 			
-			String user_key = "user_" + passport;
+			
+			String token = null;
+			try {
+				DesUtils des = new DesUtils();
+				des.encrypt(passport);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 			ValueOperations<String, PassPortInfo>  operations = redisTemplate.opsForValue();
 			
 			//判断缓存是否存在
-			Boolean hasKey =  redisTemplate.hasKey(user_key);
-			LOGGER.info("PassPortInfoService.checkUser()  查询缓存中的key" + user_key +" 是否存在 " + hasKey);
+			Boolean hasKey =  redisTemplate.hasKey(token);
+			LOGGER.info("PassPortInfoService.checkUser()  查询缓存中的key" + token +" 是否存在 " + hasKey);
 			//如果存在
 			if(hasKey){
-				PassPortInfo passPortInfo = operations.get(user_key);
+				PassPortInfo passPortInfo = operations.get(token);
 				LOGGER.info("PassPortInfoService.checkUser() 缓存存在");
 				return passPortInfo;
 			}else{
@@ -55,7 +62,7 @@ public class PassPortInfoService {
 				PassPortInfo passPortInfo = passPortInfoDAO.checkUser(portInfo);
 				if(passPortInfo != null && passPortInfo.getGid() != null){
 					//添加缓存信息 10分钟
-					operations.set(user_key, passPortInfo,10,TimeUnit.MINUTES);	
+					operations.set(token, passPortInfo,10,TimeUnit.MINUTES);	
 					LOGGER.info("PassPortInfoService.checkUser() 缓存不存在，添加新的缓存");
 					return passPortInfo;
 				}else{
@@ -107,25 +114,6 @@ public class PassPortInfoService {
 			passPortInfoDAO.deleteUser(gid);
 			return true;
 		}
-	}
-	
-	
-	private static String getToKen(){
-		
-		String str= "abcdefghijklmnopqrstuvwxyz";
-
-		StringBuffer token = new StringBuffer();
-		for (int i = 0; i < 18; i++) {
-			token.append(str.charAt((int)(Math.random()*26))) ;
-		}
-		return token.toString().toUpperCase();
-//		System.out.println(chars.charAt((int)(Math.random() * 26)));
-		
-	}	
-	
-	
-	public static void main(String[] args) {
-		System.out.println(getToKen());
 	}
 	
 	

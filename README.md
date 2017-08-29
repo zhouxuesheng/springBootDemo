@@ -8,5 +8,6 @@ SpringBoot 本身自带Tomcat容器，所以直接 运行 configuration 下的 E
 2、SpringBoot集成MyBatis 同时加入Log4j输出日志 ，freemarker 前端语言 
 注意：log4j的版本与当前springBoot有关联；
 
+3、SpringBootValidation  自定义返回消息穿和异常消息 
 
-3、SpringBootMyBaitsAnnotation  去掉ByBatis的Xml文件。在DAO通过注解的方式来完成
+4、SpringBootMyBaitsAnnotation  去掉ByBatis的Xml文件。在DAO通过注解的方式来完成

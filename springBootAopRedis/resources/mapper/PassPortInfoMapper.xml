@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.springBootAopRedis.dao.PassPortInfoDAO">
+	<resultMap id="BaseResultMap" type="org.springBootAopRedis.entity.PassPortInfo">
+		
+		<result property="id" column="id" />
+		<result property="passport" column="passport" />
+		<result property="userpsw" column="user_psw" />
+		<result property="nickName" column="nick_Name"/>
+	</resultMap>
+
+	<parameterMap id="PassPortInfo" type="org.springBootAopRedis.entity.PassPortInfo"/>
+
+	<sql id="Base_Column_List">
+		gid, passport,user_psw,nick_Name
+	</sql>
+	
+	<sql id="Base_Where_List">
+		<if test="gid != null and gid != '' ">
+		gid=#{gid}
+		</if>
+		<if test="passport != null and passport != '' ">
+		and passport = #{passport}
+		</if>
+		<if test="userpsw != null and userpsw != '' ">
+		and user_psw = #{userpsw}
+		</if>
+		<if test="nickName != null and nickName != '' ">
+		and nick_Name = #{nickName}
+		</if>
+	</sql>
+	
+	<select id="getUserList" parameterMap="PassPortInfo"  resultMap="BaseResultMap" >
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM PASSPORT_INFO
+		<where>
+			<include refid="Base_Where_List" />
+			 rownum &lt;=10		
+		</where>	
+		
+		
+	</select>
+	
+	
+	<select id="checkUser" parameterType="org.springBootAopRedis.entity.PassPortInfo" resultMap="BaseResultMap" >
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM PASSPORT_INFO
+		<where>
+<!-- 			<include refid="Base_Where_List" /> -->
+			passport = #{passport} and user_psw = #{userpsw}
+		</where>	
+	</select>
+	
+
+	<update id="updateUser" parameterMap="PassPortInfo">
+		update PASSPORT_INFO
+			<trim prefix="set" suffixOverrides=",">
+				<if test="userpsw != null and userpsw != '' ">
+					user_psw = #{userpsw}
+				</if>
+				<if test="nickName != null and nickName != ''">
+					nick_Name = #{nickName}
+				</if>
+			</trim>
+	</update>	
+	
+
+	<delete id="deleteUser" parameterType="java.lang.String">
+		delete from PASSPORT_INFO where gid = #{value}
+	</delete>	
+ 
+ 
+ 	<insert id="insertUser" parameterMap="PassPortInfo">
+ 		insert into PASSPORT_INFO (gid,passport,user_psw,nick_Name) values(#{gid},#{passport},#{userpsw},#{nickName})
+ 	</insert>
+	
+	
+
+</mapper>
